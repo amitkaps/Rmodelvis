@@ -1,0 +1,98 @@
+---
+title: "Predictions"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    source_code: embed
+runtime: shiny
+---
+
+```{r global, include=FALSE}
+# load data in 'global' chunk so it can be shared by all users of the dashboard
+library(flexdashboard)
+library(tidyverse)
+library(broom)
+library(tidyverse)
+library(ggthemes)
+library(plotly)
+library(plotly)
+library(modelr)
+library(DT)
+library(ggrepel)
+cars <- read.csv("cars.csv")
+
+
+notebook_theme <- theme_fivethirtyeight() + 
+         theme( axis.title = element_text(), legend.position = "right",
+                  legend.direction = "vertical")
+theme_set(notebook_theme)
+
+brand.options <- cars %>% select(brand) %>% distinct(brand)
+type.options <- cars %>% select(type) %>% distinct(type)
+
+kmpl.min <- min(cars$kmpl) * 0.9
+bhp.min <- min(cars$bhp) * 0.9
+kmpl.max <- max(cars$kmpl) * 1.1
+bhp.max <- max(cars$bhp) * 1.1
+
+model <- lm(price ~ kmpl + brand + type + bhp, data= cars)
+
+```
+
+Inputs {.sidebar}
+-----------------------------------------------------------------------
+
+### Input
+
+```{r}
+
+selectInput('brand', "BRAND", brand.options)
+numericInput("kmpl", "KMPL", 10, min = kmpl.min, max = kmpl.max)
+numericInput("bhp", "BHP", 10, min = bhp.min, max = bhp.max)
+selectInput('type', 'TYPE', type.options)
+
+```
+
+
+# Dashboard
+
+# Row
+
+### Prediction
+
+```{r}
+kmpl_val <- reactive({
+  input$kmpl 
+})
+
+
+# Emit the download rate
+renderValueBox({
+  rate <- formatC(kmpl_val, digits = 1, format = "f")
+  valueBox(
+    value = rate,
+    icon = "fa-area-chart"
+   # color = if (rate >= input$rateThreshold) "warning" else "primary"
+  )
+})
+
+```
+
+
+# Row
+
+### Context
+
+```{r}
+
+g <- ggplot(cars,  aes(kmpl, price, color = type)) + geom_point(size = 3) 
+renderPlot({g})  
+```
+
+
+
+
+
+
+
+

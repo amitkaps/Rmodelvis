@@ -1,0 +1,97 @@
+---
+title: "Model Visualisation"
+output: 
+    flexdashboard::flex_dashboard:
+        orientation: columns
+        vertical_layout: fill
+        source_code: embed
+runtime: shiny
+---
+
+```{r, global}
+library(flexdashboard)
+library(broom)
+library(tidyverse)
+library(ggthemes)
+library(plotly)
+library(modelr)
+library(DT)
+library(glmnet)
+library(ggrepel)
+```
+ 
+Columnn {data-width=250}
+-----------------------------------------------------------------------
+
+### Data
+
+```{r}
+valueBox("Visualise the *data space*", icon = "fa-question", href="#data", color="success")
+```
+
+### Predictions
+
+```{r}
+valueBox("Visualise the *predictions in the data space*", icon = "fa-line-chart",href="#prediction")
+```
+
+
+### Visualise the *errors in model fitting*
+    
+```{r}
+valueBox("House Prices", icon = "fa-bar-chart", href="#errors")
+```
+   
+### Visualise with *different model parameters*
+
+```{r}
+valueBox("Tables", icon = "fa-table",href="#parameters")
+```
+
+### Visualise with *different input datasets*
+
+```{r}
+valueBox("Linked", icon = "fa-link",href="#input")
+```
+
+### Visualise the *many models together*
+
+```{r}
+valueBox("Linked", icon = "fa-link",href="#many-models")
+```
+ 
+
+Data
+====================================
+ 
+
+### Chart 1
+    
+```{r}
+```
+    
+### Chart 2
+
+```{r}
+```
+
+
+Prediction
+====================================
+
+
+Errors
+====================================
+
+
+# Parameters
+====================================
+
+
+# Inputs
+====================================
+
+
+# Many Models
+====================================
+
